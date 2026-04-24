@@ -1,0 +1,53 @@
+# =============================================================================
+# GLOBAL MICROSERVICES GITIGNORE (Root)
+# =============================================================================
+
+### Java & Maven ###
+**/target/
+**/build/
+.mvn/wrapper/maven-wrapper.jar
+**/HELP.md
+**/mvnw
+**/mvnw.cmd
+
+# Exceptions pour garder les structures de build si nécessaire (optionnel)
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+/out/
+# Garder la config des modules si tu n'utilises pas de Root POM
+# .idea/modules.xml
+
+### Eclipse / STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+**/nbproject/private/
+**/nbbuild/
+**/dist/
+**/nbdist/
+**/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### OS Spécifique ###
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+
+### Logs ###
+*.log
+**/logs/
