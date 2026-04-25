@@ -4,6 +4,7 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.*;
 import org.apache.kafka.streams.state.KeyValueStore;
 
@@ -18,20 +19,31 @@ public class Main {
         props.put("bootstrap.servers", "localhost:9092");
         props.put("default.key.serde", "org.apache.kafka.common.serialization.Serdes$StringSerde");
         props.put("default.value.serde", "org.apache.kafka.common.serialization.Serdes$StringSerde");
+        props.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 1000);
+        props.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, 0);
 
-        StreamsBuilder builder = new StreamsBuilder();
+        StreamsBuilder builder = new StreamsBuilder(); // creation de la topologie
 
         KStream<String,String> ClicksStrem = builder.stream("click");
 
+        ClicksStrem
+                // 1. Extraire la clé à partir de la valeur "userId,click"
+                .selectKey((k, v) -> v.split(",")[0])
+                // 2. Grouper par cette nouvelle clé
+                .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
+                .count()
+                .toStream()
+                .mapValues(value-> String.valueOf(value))
+                // 3. Envoyer vers le topic de sortie
+                .to("click-counts", Produced.with(Serdes.String(), Serdes.String()));
 
-        KGroupedStream<String,String> groupedStream = ClicksStrem.groupBy((key, value) ->value.split(",")[0] );
-        KTable<String, Long> clickCounts = groupedStream.count(
-                Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("clicks-store")
-        );
 
-        clickCounts
-                .toStream() // 1. Convertit la Table en Flux (userId, total)
-                .to("click-counts", Produced.with(Serdes.String(), Serdes.Long())); // 2. Envoie vers Kafka
+
+//
+//        clickCounts
+//                .toStream() // 1. Convertit la Table en Flux (userId, total)
+//                .mapValues(value -> String.valueOf(value)) // On transforme le chiffre 2 en texte "2"
+//                .to("click-counts", Produced.with(Serdes.String(), Serdes.String()));
 
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
         streams.start();

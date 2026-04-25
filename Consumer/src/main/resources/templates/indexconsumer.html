@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>Click Analytics</title>
 </head>
 <body>
-$END$
+
+<h1>Total clicks by user id</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>User ID</th>
+        <th>Total Counts</th>
+    </tr>
+    </thead>
+    <tbody id="clicks-table-body">
+    </tbody>
+</table>
+
+<script>
+    function updateStats() {
+        // On appelle ton API REST sur le port 8082
+        fetch('/clicks/count')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('clicks-table-body');
+                tableBody.innerHTML = '';
+
+                // data est ta Map { "userId": count }
+                Object.entries(data).forEach(([userId, count]) => {
+                    const row = `
+                            <tr>
+                                <td>${userId}</td>
+                                <td>${count}</td>
+                            </tr>
+                        `;
+                    tableBody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error('Erreur de chargement:', error));
+    }
+
+    // Rafraîchissement automatique toutes les secondes
+    setInterval(updateStats, 1000);
+</script>
 </body>
 </html>
