@@ -18,17 +18,17 @@
 
 ---
 
-## 🎯 Objective
+## -  Objective
 L'objectif de cette application est de concevoir un pipeline **End-to-End** capable de capturer, traiter et visualiser des événements utilisateur (clics) en temps réel avec une latence minimale. Le projet démontre comment transformer un flux de données brut en insights exploitables via une architecture orientée événements (EDA).
 
-## 🏗 Architecture
+## -  Architecture
 Le projet est découpé en trois micro-services distincts orchestrés autour d'un cluster Kafka :
 
 1.  **Producer (Port 8080)** : Une interface web Spring Boot qui capture les clics et les publie dans le topic `click`.
 2.  **Kafka Streams Engine** : Une application de traitement qui consomme les clics, effectue un comptage étatique (*Stateful*) par utilisateur et produit les résultats dans `click-counts`.
 3.  **Consumer & Dashboard (Port 8082)** : Un service qui consomme les agrégats, les expose via une API REST et les affiche sur un dashboard dynamique.
 
-## 🧠 What I Learned
+## -  What I Learned
 Ce projet m'a permis de maîtriser des concepts avancés du Big Data et du développement logiciel :
 
 * **Kafka Streams Topology** : Conception de topologies incluant `selectKey`, `groupByKey` et `count()`.
@@ -39,20 +39,8 @@ Ce projet m'a permis de maîtriser des concepts avancés du Big Data et du déve
 
 ---
 
-## 📸 Screenshots
 
-### 1. Simulation de Clics (Producer)
-Interface permettant d'envoyer des événements pour différents User IDs.
-
-### 2. Dashboard de Monitoring (Consumer)
-Visualisation en temps réel des statistiques agrégées.
-
-### 3. Kafka Pipeline (Console)
-Visualisation des messages transformés dans les topics Kafka.
-
----
-
-## 🚀 How to Run
+## - How to Run
 
 1. **Lancer Kafka** :
    ```bash
@@ -70,9 +58,3 @@ Visualisation des messages transformés dans les topics Kafka.
 © 2026 - Ayoub SAMY - ENSET Mohammedia
 ```
 
-### Quelques conseils pour ton GitHub :
-* **Images** : Crée un dossier `screenshots/` dans ton dépôt et glisse tes captures d'écran dedans. Remplace ensuite les sections "Screenshots" par les liens vers tes fichiers : `![Dashboard](./screenshots/dashboard.png)`.
-* **Badges** : J'ai utilisé des badges Shields.io pour reproduire le style de ton image. Tu peux modifier les couleurs ou les logos facilement.
-* **Code** : N'oublie pas d'ajouter ton fichier `docker-compose.yml` à la racine pour que les gens puissent tester ton projet facilement.
-
-C'est un excellent ajout à ton portfolio Big Data ! Est-ce que tu veux que j'ajoute une section sur la **gestion des erreurs (Dead Letter Queue)** que nous avons vue dans l'exercice 1 ?
