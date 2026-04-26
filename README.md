@@ -88,7 +88,6 @@ Ce projet m'a permis de maîtriser des concepts avancés du Big Data et du déve
 3. **Accéder aux interfaces** :
     - Producer : `http://localhost:8080`
     - Dashboard : `http://localhost:8082`
-
 ---
 © 2026 - Ayoub SAMY - ENSET Mohammedia
 ```
