@@ -22,12 +22,9 @@
 L'objectif de cette application est de concevoir un pipeline **End-to-End** capable de capturer, traiter et visualiser des événements utilisateur (clics) en temps réel avec une latence minimale. Le projet démontre comment transformer un flux de données brut en insights exploitables via une architecture orientée événements (EDA).
 
 ## -  Architecture
-## 🏗 Architecture & Data Flow
-
 Le projet repose sur une architecture orientée événements (EDA) découpée en trois micro-services autonomes.
 
 ```mermaid
-
 graph LR
     subgraph "Frontend"
         A[Web Browser]
@@ -59,6 +56,8 @@ graph LR
     E -- "Listen" --> F
     F -- "Store in Memory" --> G
     H -- "Poll (Fetch API)" --> G
+
+```
     
 1.  **Producer (Port 8080)** : Une interface web Spring Boot qui capture les clics et les publie dans le topic `click`.
 2.  **Kafka Streams Engine** : Une application de traitement qui consomme les clics, effectue un comptage étatique (*Stateful*) par utilisateur et produit les résultats dans `click-counts`.
