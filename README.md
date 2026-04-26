@@ -22,8 +22,44 @@
 L'objectif de cette application est de concevoir un pipeline **End-to-End** capable de capturer, traiter et visualiser des événements utilisateur (clics) en temps réel avec une latence minimale. Le projet démontre comment transformer un flux de données brut en insights exploitables via une architecture orientée événements (EDA).
 
 ## -  Architecture
-Le projet est découpé en trois micro-services distincts orchestrés autour d'un cluster Kafka :
+## 🏗 Architecture & Data Flow
 
+Le projet repose sur une architecture orientée événements (EDA) découpée en trois micro-services autonomes.
+
+```mermaid
+
+graph LR
+    subgraph "Frontend"
+        A[Web Browser]
+    end
+
+    subgraph "Micro-service: Producer (Port 8080)"
+        B[Spring Boot Producer]
+    end
+
+    subgraph "Event Bus (Apache Kafka)"
+        C((Topic: clicks))
+        E((Topic: click-counts))
+    end
+
+    subgraph "Micro-service: Streams Engine"
+        D[Kafka Streams / Stateful App]
+    end
+
+    subgraph "Micro-service: Consumer (Port 8082)"
+        F[Spring Boot Consumer]
+        G[REST API]
+        H[Analytics Dashboard]
+    end
+
+    A -- "HTTP POST (Click Event)" --> B
+    B -- "Send (userId, 'click')" --> C
+    C -- "Consume" --> D
+    D -- "Count & Aggregate" --> E
+    E -- "Listen" --> F
+    F -- "Store in Memory" --> G
+    H -- "Poll (Fetch API)" --> G
+    
 1.  **Producer (Port 8080)** : Une interface web Spring Boot qui capture les clics et les publie dans le topic `click`.
 2.  **Kafka Streams Engine** : Une application de traitement qui consomme les clics, effectue un comptage étatique (*Stateful*) par utilisateur et produit les résultats dans `click-counts`.
 3.  **Consumer & Dashboard (Port 8082)** : Un service qui consomme les agrégats, les expose via une API REST et les affiche sur un dashboard dynamique.
@@ -57,4 +93,3 @@ Ce projet m'a permis de maîtriser des concepts avancés du Big Data et du déve
 ---
 © 2026 - Ayoub SAMY - ENSET Mohammedia
 ```
-
