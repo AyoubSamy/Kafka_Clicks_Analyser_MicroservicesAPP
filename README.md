@@ -19,7 +19,7 @@
 ---
 
 ## -  Objective
-L'objectif de cette application est de concevoir un pipeline **End-to-End** capable de capturer, traiter et visualiser des événements utilisateur (clics) en temps réel avec une latence minimale. Le projet démontre comment transformer un flux de données brut en insights exploitables via une architecture orientée événements (EDA).
+L'objectif de cette application est de concevoir un pipeline **End-to-End** capable de capturer, traiter et visualiser des événements utilisateur (clics) en temps réel avec une latence minimale via une architecture orientée événements (EDA).
 
 ## -  Architecture
 Le projet repose sur une architecture orientée événements (EDA) découpée en trois micro-services autonomes.
@@ -64,7 +64,7 @@ graph LR
 3.  **Consumer & Dashboard (Port 8082)** : Un service qui consomme les agrégats, les expose via une API REST et les affiche sur un dashboard dynamique.
 
 ## -  What I Learned
-Ce projet m'a permis de maîtriser des concepts avancés du Big Data et du développement logiciel :
+Ce projet m'a permis de pratiquer :
 
 * **Kafka Streams Topology** : Conception de topologies incluant `selectKey`, `groupByKey` et `count()`.
 * **Stateful Processing** : Gestion des *State Stores* (RocksDB) pour maintenir des compteurs persistants sans base de données externe.
